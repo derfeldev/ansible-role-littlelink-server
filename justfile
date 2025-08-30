@@ -8,4 +8,3 @@ default:
 
 lint:
     ansible-lint .
-

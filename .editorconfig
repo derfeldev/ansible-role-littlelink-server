@@ -41,4 +41,3 @@ indent_size = 2
 # Makefiles
 [Makefile]
 indent_style = tab
-

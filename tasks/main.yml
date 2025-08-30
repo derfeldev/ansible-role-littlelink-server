@@ -24,4 +24,3 @@
   block:
     - name: Uninstall LittleLink Server
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
-
