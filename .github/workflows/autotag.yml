@@ -55,7 +55,10 @@ jobs:
         id: find_renovate_commit
         run: |
           # Look for Renovate commits that update Docker images
-          git log --pretty=format:'%H|%an|%s' --grep="update docker" --grep="bump.*littlelink" --grep="update.*littlelink" -i | while IFS='|' read -r commit author subject; do
+          git log --pretty=format:'%H|%an|%s' \
+            --grep="update docker" \
+            --grep="bump.*littlelink" \
+            --grep="update.*littlelink" -i | while IFS='|' read -r commit author subject; do
             if [[ "$author" == "renovate[bot]" ]]; then
               # Extract image update info - for latest images we track commit hash instead of version
               if [[ "$subject" =~ .*[Uu]pdate.*[Dd]ocker.*[Ii]mage.* ]]; then

@@ -51,7 +51,8 @@ littlelink_server_container_http_port: 3000
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
 # Use this to expose this container to a reverse proxy, which runs in a different container network.
-littlelink_server_container_additional_networks: "{{ littlelink_server_container_additional_networks_auto + littlelink_server_container_additional_networks_custom }}"
+littlelink_server_container_additional_networks: >-
+  {{ littlelink_server_container_additional_networks_auto + littlelink_server_container_additional_networks_custom }}
 littlelink_server_container_additional_networks_auto: []
 littlelink_server_container_additional_networks_custom: []
 
@@ -60,7 +61,8 @@ littlelink_server_container_additional_networks_custom: []
 # if you wish to mount your own files into the container.
 # Contains definition objects like this: `{"type": "bind", "src": "/outside", "dst": "/inside", "options": "readonly"}`.
 # See the `--mount` documentation for the `docker run` command.
-littlelink_server_container_additional_volumes: "{{ littlelink_server_container_additional_volumes_auto + littlelink_server_container_additional_volumes_custom }}"
+littlelink_server_container_additional_volumes: >-
+  {{ littlelink_server_container_additional_volumes_auto + littlelink_server_container_additional_volumes_custom }}
 littlelink_server_container_additional_volumes_auto: []
 littlelink_server_container_additional_volumes_custom: []
 
@@ -73,7 +75,11 @@ littlelink_server_container_labels_traefik_docker_network: "{{ littlelink_server
 littlelink_server_container_labels_traefik_hostname: "{{ littlelink_server_hostname }}"
 # The path prefix must either be `/` or not end with a slash (e.g. `/littlelink`).
 littlelink_server_container_labels_traefik_path_prefix: "{{ littlelink_server_path_prefix }}"
-littlelink_server_container_labels_traefik_rule: "Host(`{{ littlelink_server_container_labels_traefik_hostname }}`){% if littlelink_server_container_labels_traefik_path_prefix != '/' %} && PathPrefix(`{{ littlelink_server_container_labels_traefik_path_prefix }}`){% endif %}"
+littlelink_server_container_labels_traefik_rule: >-
+  Host(`{{ littlelink_server_container_labels_traefik_hostname }}`)
+  {%- if littlelink_server_container_labels_traefik_path_prefix != '/' %}
+  && PathPrefix(`{{ littlelink_server_container_labels_traefik_path_prefix }}`)
+  {%- endif %}
 littlelink_server_container_labels_traefik_priority: 0
 littlelink_server_container_labels_traefik_entrypoints: web-secure
 littlelink_server_container_labels_traefik_tls: "{{ littlelink_server_container_labels_traefik_entrypoints != 'web' }}"
@@ -85,21 +91,28 @@ littlelink_server_container_labels_middleware_basic_auth_users: ''
 
 # Controls which additional headers to attach to all HTTP requests.
 # To add your own custom request headers, use `littlelink_server_container_labels_traefik_additional_request_headers_custom`
-littlelink_server_container_labels_traefik_additional_request_headers: "{{ littlelink_server_container_labels_traefik_additional_request_headers_auto | combine(littlelink_server_container_labels_traefik_additional_request_headers_custom) }}"
+littlelink_server_container_labels_traefik_additional_request_headers: >-
+  {{ littlelink_server_container_labels_traefik_additional_request_headers_auto | combine(littlelink_server_container_labels_traefik_additional_request_headers_custom) }}
 littlelink_server_container_labels_traefik_additional_request_headers_auto: {}
 littlelink_server_container_labels_traefik_additional_request_headers_custom: {}
 
 # Controls which additional headers to attach to all HTTP responses.
 # To add your own custom response headers, use `littlelink_server_container_labels_traefik_additional_response_headers_custom`
-littlelink_server_container_labels_traefik_additional_response_headers: "{{ littlelink_server_container_labels_traefik_additional_response_headers_auto | combine(littlelink_server_container_labels_traefik_additional_response_headers_custom) }}"
+littlelink_server_container_labels_traefik_additional_response_headers: >-
+  {{ littlelink_server_container_labels_traefik_additional_response_headers_auto | combine(littlelink_server_container_labels_traefik_additional_response_headers_custom) }}
 littlelink_server_container_labels_traefik_additional_response_headers_auto: |
   {{
     {}
-    | combine ({'X-XSS-Protection': littlelink_server_http_header_xss_protection} if littlelink_server_http_header_xss_protection else {})
-    | combine ({'X-Content-Type-Options': littlelink_server_http_header_content_type_options} if littlelink_server_http_header_content_type_options else {})
-    | combine ({'Content-Security-Policy': littlelink_server_http_header_content_security_policy} if littlelink_server_http_header_content_security_policy else {})
-    | combine ({'Permission-Policy': littlelink_server_http_header_content_permission_policy} if littlelink_server_http_header_content_permission_policy else {})
-    | combine ({'Strict-Transport-Security': littlelink_server_http_header_strict_transport_security} if littlelink_server_http_header_strict_transport_security and littlelink_server_container_labels_traefik_tls else {})
+    | combine ({'X-XSS-Protection': littlelink_server_http_header_xss_protection} 
+      if littlelink_server_http_header_xss_protection else {})
+    | combine ({'X-Content-Type-Options': littlelink_server_http_header_content_type_options} 
+      if littlelink_server_http_header_content_type_options else {})
+    | combine ({'Content-Security-Policy': littlelink_server_http_header_content_security_policy} 
+      if littlelink_server_http_header_content_security_policy else {})
+    | combine ({'Permission-Policy': littlelink_server_http_header_content_permission_policy} 
+      if littlelink_server_http_header_content_permission_policy else {})
+    | combine ({'Strict-Transport-Security': littlelink_server_http_header_strict_transport_security} 
+      if littlelink_server_http_header_strict_transport_security and littlelink_server_container_labels_traefik_tls else {})
   }}
 littlelink_server_container_labels_traefik_additional_response_headers_custom: {}
 
@@ -134,7 +147,9 @@ littlelink_server_http_header_content_permission_policy: "{{ 'interest-cohort=()
 
 # Specifies the value of the `Strict-Transport-Security` header.
 # See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
-littlelink_server_http_header_strict_transport_security: "max-age=31536000; includeSubDomains{{ '; preload' if littlelink_server_hsts_preload_enabled else '' }}"
+littlelink_server_http_header_strict_transport_security: >-
+  max-age=31536000; includeSubDomains
+  {{- '; preload' if littlelink_server_hsts_preload_enabled else '' }}
 
 # Controls whether to send a "Permissions-Policy interest-cohort=();" header along with all responses
 #
@@ -160,13 +175,15 @@ littlelink_server_floc_optout_enabled: true
 littlelink_server_hsts_preload_enabled: false
 
 # List of systemd services that the LittleLink Server systemd service depends on
-littlelink_server_systemd_required_services_list: "{{ littlelink_server_systemd_required_services_list_default + littlelink_server_systemd_required_services_list_auto + littlelink_server_systemd_required_services_list_custom }}"
+littlelink_server_systemd_required_services_list: >-
+  {{ littlelink_server_systemd_required_services_list_default + littlelink_server_systemd_required_services_list_auto + littlelink_server_systemd_required_services_list_custom }}
 littlelink_server_systemd_required_services_list_default: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
 littlelink_server_systemd_required_services_list_auto: []
 littlelink_server_systemd_required_services_list_custom: []
 
 # List of systemd services that the LittleLink Server systemd service wants
-littlelink_server_systemd_wanted_services_list: "{{ littlelink_server_systemd_wanted_services_list_default + littlelink_server_systemd_wanted_services_list_auto + littlelink_server_systemd_wanted_services_list_custom }}"
+littlelink_server_systemd_wanted_services_list: >-
+  {{ littlelink_server_systemd_wanted_services_list_default + littlelink_server_systemd_wanted_services_list_auto + littlelink_server_systemd_wanted_services_list_custom }}
 littlelink_server_systemd_wanted_services_list_default: []
 littlelink_server_systemd_wanted_services_list_auto: []
 littlelink_server_systemd_wanted_services_list_custom: []

@@ -4,7 +4,7 @@
 
 ---
 - name: Restart littlelink_server
-  community.docker.docker_container:
+  community.docker.docker_container:  # noqa: unknown-module
     name: "{{ littlelink_server_identifier }}"
     state: started
     restart: true
