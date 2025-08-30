@@ -11,7 +11,7 @@ littlelink_server_identifier: littlelink_server
 littlelink_server_base_path: "/{{ littlelink_server_identifier }}"
 littlelink_server_data_path: "{{ littlelink_server_base_path }}/data"
 
-# Note: Change "littlelink_server_container_image_self_build_dockerfile" when updating
+# Note: This role is versionless and always uses the latest image
 # renovate: datasource=docker depName=littlelink-server versioning=latest
 littlelink_server_version: latest
 

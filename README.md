@@ -10,6 +10,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 An Ansible role to install and configure [LittleLink Server](https://github.com/timothystewart6/littlelink-server), a lightweight DIY alternative to services like Linktree.
 
+**⚠️ Versionless Role**: This role is designed to be versionless and will always install from the main branch, ensuring you always get the latest updates without version constraints.
+
 ## Description
 
 LittleLink Server is a lightweight DIY alternative to services like [Linktree](https://linktr.ee) and [many.link](https://many.link/). It's built using [Skeleton](http://getskeleton.com/), a dead simple, responsive boilerplate with branded styles for popular services.
@@ -45,7 +47,7 @@ This Ansible role provides:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `littlelink_server_version` | `latest` | Container image version |
+| `littlelink_server_version` | `latest` | Container image version (always latest from main branch) |
 | `littlelink_server_container_http_port` | `3000` | Container HTTP port |
 | `littlelink_server_container_http_host_bind_port` | `''` | Host port binding |
 
@@ -108,7 +110,6 @@ This role is designed to integrate with the [Mash Playbook](https://github.com/m
 ```yaml
 ---
 - src: git+https://github.com/derfeldev/ansible-role-littlelink-server.git
-  version: main
   name: littlelink_server
   activation_prefix: littlelink_server_
 ```
