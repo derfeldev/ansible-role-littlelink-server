@@ -24,6 +24,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          ref: ${{ github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -45,6 +46,8 @@ jobs:
         run: |
           ansible-galaxy role import \
             --api-key $GALAXY_TOKEN \
+            --role-name ansible-role-littlelink-server \
+            --src ${{ github.workspace }} \
             derfeldev \
             ansible-role-littlelink-server
 
