@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 # Ansible Role: LittleLink Server
 
 [![License: AGPL-3.0-or-later](https://img.shields.io/badge/License-AGPL%203.0--or--later-blue.svg)](https://spdx.org/licenses/AGPL-3.0-or-later.html)
@@ -12,6 +16,7 @@ LittleLink Server is a lightweight DIY alternative to services like [Linktree](h
 **Note**: This Ansible role is based on the [LittleLink Server](https://github.com/timothystewart6/littlelink-server) project by [Timothy Stewart (Techno Tim)](https://github.com/timothystewart6), which is licensed under the MIT License.
 
 This Ansible role provides:
+
 - Docker container deployment
 - Systemd service management
 - Traefik reverse proxy integration
@@ -64,6 +69,7 @@ This Ansible role provides:
 ### Social Media Links
 
 The role supports all major social media platforms including:
+
 - GitHub, Twitter, Instagram, LinkedIn
 - YouTube, Twitch, Discord, TikTok
 - Facebook, Patreon, and many more
