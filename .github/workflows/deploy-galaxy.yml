@@ -9,6 +9,10 @@ on:
   push:
     tags:
       - '*'
+  workflow_run:
+    workflows: ["Autotag dependency updates"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -46,8 +50,6 @@ jobs:
         run: |
           ansible-galaxy role import \
             --api-key $GALAXY_TOKEN \
-            --role-name ansible-role-littlelink-server \
-            --src ${{ github.workspace }} \
             derfeldev \
             ansible-role-littlelink-server
 
