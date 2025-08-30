@@ -103,15 +103,15 @@ littlelink_server_container_labels_traefik_additional_response_headers: >-
 littlelink_server_container_labels_traefik_additional_response_headers_auto: |
   {{
     {}
-    | combine ({'X-XSS-Protection': littlelink_server_http_header_xss_protection} 
+    | combine ({'X-XSS-Protection': littlelink_server_http_header_xss_protection}
       if littlelink_server_http_header_xss_protection else {})
-    | combine ({'X-Content-Type-Options': littlelink_server_http_header_content_type_options} 
+    | combine ({'X-Content-Type-Options': littlelink_server_http_header_content_type_options}
       if littlelink_server_http_header_content_type_options else {})
-    | combine ({'Content-Security-Policy': littlelink_server_http_header_content_security_policy} 
+    | combine ({'Content-Security-Policy': littlelink_server_http_header_content_security_policy}
       if littlelink_server_http_header_content_security_policy else {})
-    | combine ({'Permission-Policy': littlelink_server_http_header_content_permission_policy} 
+    | combine ({'Permission-Policy': littlelink_server_http_header_content_permission_policy}
       if littlelink_server_http_header_content_permission_policy else {})
-    | combine ({'Strict-Transport-Security': littlelink_server_http_header_strict_transport_security} 
+    | combine ({'Strict-Transport-Security': littlelink_server_http_header_strict_transport_security}
       if littlelink_server_http_header_strict_transport_security and littlelink_server_container_labels_traefik_tls else {})
   }}
 littlelink_server_container_labels_traefik_additional_response_headers_custom: {}
