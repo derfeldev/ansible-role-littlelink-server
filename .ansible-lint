@@ -1,0 +1,18 @@
+---
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Ansible Lint configuration
+# See: https://ansible-lint.readthedocs.io/en/latest/configuring.html
+
+# Exclude paths
+exclude_paths:
+  - .ansible/
+  - LICENSES/
+
+# Verbose output
+verbosity: 1
+
+# Parse errors as fatal
+parseable: true

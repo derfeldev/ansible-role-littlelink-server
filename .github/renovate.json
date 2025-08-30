@@ -1,0 +1,70 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommitsDisabled"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchCategories": [
+        "docker"
+      ],
+      "enabled": true,
+      "pinDigests": true
+    },
+    {
+      "matchFileNames": [
+        ".pre-commit-config.yaml"
+      ],
+      "enabled": true,
+      "automerge": true,
+      "automergeType": "branch",
+      "schedule": [
+        "* * 1 * *"
+      ],
+      "automergeSchedule": [
+        "* * 1 * *"
+      ]
+    },
+    {
+      "matchFileNames": [
+        "defaults/main.yml"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "enabled": true,
+      "automerge": false,
+      "commitMessageAction": "update",
+      "commitMessageTopic": "LittleLink Server Docker image",
+      "commitMessageExtra": "to latest",
+      "commitMessagePrefix": "chore(deps):",
+      "schedule": [
+        "before 2am on monday"
+      ]
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^defaults/main\\.yml$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=docker depName=littlelink-server versioning=latest\\s+littlelink_server_version:\\s*[\"']?(?<currentValue>.+?)[\"']?\\s"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "littlelink-server",
+      "versioningTemplate": "latest",
+      "packageNameTemplate": "littlelink-server"
+    }
+  ],
+  "pre-commit": {
+    "enabled": true
+  }
+}

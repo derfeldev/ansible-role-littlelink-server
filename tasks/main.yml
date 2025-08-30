@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+- name: Perform LittleLink Server installation tasks
+  when: littlelink_server_enabled | bool
+  tags:
+    - setup-all
+    - setup-littlelink_server
+    - install-all
+    - install-littlelink_server
+  block:
+    - name: Validate LittleLink Server configuration
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
+    - name: Install LittleLink Server
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
+
+- name: Perform LittleLink Server uninstallation tasks
+  when: not littlelink_server_enabled | bool
+  tags:
+    - setup-all
+    - setup-littlelink_server
+  block:
+    - name: Uninstall LittleLink Server
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"

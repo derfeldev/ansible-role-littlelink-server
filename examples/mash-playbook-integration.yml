@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+# Example configuration for ansible-role-littlelink-server in mash-playbook
+# Add this to your group_vars/all.yml or group_vars/your_group.yml
+
+# Enable LittleLink Server
+littlelink_server_enabled: true
+
+# Basic configuration
+littlelink_server_hostname: "links.example.com"
+littlelink_server_meta_title: "My Links"
+littlelink_server_name: "John Doe"
+littlelink_server_bio: "Software Engineer | Open Source Contributor | Tech Enthusiast"
+littlelink_server_theme: "Dark"
+littlelink_server_footer: "John Doe © 2025"
+
+# Social media links
+littlelink_server_github: "https://github.com/johndoe"
+littlelink_server_twitter: "https://twitter.com/johndoe"
+littlelink_server_linked_in: "https://linkedin.com/in/johndoe"
+littlelink_server_youtube: "https://youtube.com/@johndoe"
+littlelink_server_twitch: "https://twitch.tv/johndoe"
+littlelink_server_discord: "https://discord.gg/johndoe"
+littlelink_server_tiktok: "https://tiktok.com/@johndoe"
+littlelink_server_instagram: "https://instagram.com/johndoe"
+littlelink_server_facebook: "https://facebook.com/johndoe"
+littlelink_server_patreon: "https://patreon.com/johndoe"
+
+# Custom buttons
+littlelink_server_custom_button_text: "Portfolio,Resume,Contact"
+littlelink_server_custom_button_url: "https://portfolio.example.com,https://resume.example.com,mailto:john@example.com"
+littlelink_server_custom_button_color: "#007bff,#28a745,#dc3545"
+littlelink_server_custom_button_text_color: "#ffffff,#ffffff,#ffffff"
+littlelink_server_custom_button_alt_text: "View my portfolio,Download my resume,Send me an email"
+littlelink_server_custom_button_name: "PORTFOLIO,RESUME,CONTACT"
+littlelink_server_custom_button_icon: "fas fa-briefcase,fas fa-file-alt,fas fa-envelope"
+
+# Button order (optional)
+littlelink_server_button_order: "GITHUB,TWITTER,LINKED_IN,YOUTUBE,TWITCH,DISCORD,TIKTOK,INSTAGRAM,FACEBOOK,PATREON,PORTFOLIO,RESUME,CONTACT"
+
+# Analytics (optional)
+littlelink_server_ga_tracking_id: "G-XXXXXXXXXX"
+
+# Traefik integration (enabled by default)
+littlelink_server_container_labels_traefik_enabled: true
+littlelink_server_container_labels_traefik_entrypoints: "web-secure"
+littlelink_server_container_labels_traefik_tls: true

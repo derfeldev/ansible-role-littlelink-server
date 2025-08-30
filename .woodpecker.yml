@@ -1,0 +1,11 @@
+---
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+pipeline:
+  lint:
+    image: python:3.11-alpine
+    commands:
+      - pip install ansible-lint
+      - ansible-lint .

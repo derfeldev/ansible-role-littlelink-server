@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+- name: Validate LittleLink Server configuration
+  block:
+    - name: Check if LittleLink Server hostname is provided when Traefik labels are enabled
+      ansible.builtin.fail:
+        msg: "littlelink_server_hostname must be set when littlelink_server_container_labels_traefik_enabled is true"
+      when:
+        - littlelink_server_container_labels_traefik_enabled | bool
+        - not littlelink_server_hostname
+
+    - name: Check if LittleLink Server container HTTP host bind port is valid
+      ansible.builtin.fail:
+        msg: "littlelink_server_container_http_host_bind_port must be empty or contain a valid port (e.g., '8080' or '127.0.0.1:8080')"
+      when:
+        - littlelink_server_container_http_host_bind_port != ""
+        - not (littlelink_server_container_http_host_bind_port | regex_search('^(\d+|[0-9.]+:\d+)$'))
+
+    - name: Check if LittleLink Server container HTTP port is valid
+      ansible.builtin.fail:
+        msg: "littlelink_server_container_http_port must be a valid port number between 1 and 65535"
+      when:
+        - not (littlelink_server_container_http_port | int >= 1 and littlelink_server_container_http_port | int <= 65535)

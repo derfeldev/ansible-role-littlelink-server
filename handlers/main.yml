@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+- name: Restart littlelink_server
+  community.docker.docker_container:
+    name: "{{ littlelink_server_identifier }}"
+    state: started
+    restart: true
+  listen: "restart littlelink_server"

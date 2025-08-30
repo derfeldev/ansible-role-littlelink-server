@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+- name: Stop and disable LittleLink Server systemd service
+  ansible.builtin.systemd:
+    name: "{{ littlelink_server_identifier }}"
+    state: stopped
+    enabled: false
+    daemon_reload: true
+
+- name: Remove LittleLink Server systemd service file
+  ansible.builtin.file:
+    path: "/etc/systemd/system/{{ littlelink_server_identifier }}.service"
+    state: absent
+
+- name: Remove LittleLink Server container
+  community.docker.docker_container:
+    name: "{{ littlelink_server_identifier }}"
+    state: absent
+    force_kill: true
+    remove_volumes: true
+
+- name: Remove LittleLink Server container network
+  community.docker.docker_network:
+    name: "{{ littlelink_server_container_network }}"
+    state: absent
+
+- name: Remove LittleLink Server base directory
+  ansible.builtin.file:
+    path: "{{ littlelink_server_base_path }}"
+    state: absent

@@ -1,0 +1,125 @@
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+---
+name: Autotag dependency updates
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allow manual triggering
+
+permissions:
+  contents: write  # required to push tags
+  actions: read
+
+jobs:
+  autotag:
+    name: Autotag dependency updates
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Fetch full history for better tag detection
+
+      - name: Set up Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch all tags from origin
+        run: git fetch --tags
+
+      - name: Get current LittleLink Server image info
+        id: get_current_image
+        run: |
+          IMAGE=$(grep '^littlelink_server_container_image:' defaults/main.yml | sed 's/.*: *//' | tr -d "'\"")
+          echo "current_image=$IMAGE" >> $GITHUB_OUTPUT
+          echo "Current LittleLink Server image: $IMAGE"
+
+      - name: Find latest Renovate Docker commit
+        id: find_renovate_commit
+        run: |
+          # Look for Renovate commits that update Docker images
+          git log --pretty=format:'%H|%an|%s' --grep="update docker" --grep="bump.*littlelink" --grep="update.*littlelink" -i | while IFS='|' read -r commit author subject; do
+            if [[ "$author" == "renovate[bot]" ]]; then
+              # Extract image update info - for latest images we track commit hash instead of version
+              if [[ "$subject" =~ .*[Uu]pdate.*[Dd]ocker.*[Ii]mage.* ]]; then
+                echo "new_image_update=true" >> $GITHUB_OUTPUT
+                echo "commit_hash=$commit" >> $GITHUB_OUTPUT
+                echo "Found Renovate Docker image update commit: $commit"
+                break
+              fi
+            fi
+          done
+
+      - name: Determine tag to create
+        id: determine_tag
+        run: |
+          # Get current date for tag naming
+          CURRENT_DATE=$(date +%Y%m%d)
+
+          # Create tag name with date and build number
+          BUILD_NUMBER=0
+          while git tag -l "${CURRENT_DATE}-${BUILD_NUMBER}" | grep -q "${CURRENT_DATE}-${BUILD_NUMBER}"; do
+            BUILD_NUMBER=$((BUILD_NUMBER + 1))
+          done
+
+          TAG_NAME="${CURRENT_DATE}-${BUILD_NUMBER}"
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "date=$CURRENT_DATE" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "Final tag name: $TAG_NAME"
+
+      - name: Check if tag already exists
+        id: check_tag
+        run: |
+          TAG="${{ steps.determine_tag.outputs.tag_name }}"
+          if git tag -l "$TAG" | grep -q "$TAG"; then
+            echo "Tag $TAG already exists."
+            echo "already_tagged=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag $TAG does not exist yet."
+            echo "already_tagged=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create and push tag
+        if: steps.check_tag.outputs.already_tagged == 'false'
+        run: |
+          TAG="${{ steps.determine_tag.outputs.tag_name }}"
+          DATE="${{ steps.determine_tag.outputs.date }}"
+          BUILD_NUMBER="${{ steps.determine_tag.outputs.build_number }}"
+
+          # Use HEAD commit if no specific Renovate commit found
+          if [[ "${{ steps.find_renovate_commit.outputs.commit_hash }}" != "" ]]; then
+            HASH="${{ steps.find_renovate_commit.outputs.commit_hash }}"
+            echo "Tagging Renovate commit $HASH with $TAG"
+          else
+            HASH="HEAD"
+            echo "Tagging HEAD commit with $TAG (date: $DATE)"
+          fi
+
+          # Create annotated tag with message
+          git tag -a "$TAG" "$HASH" -m "Release $TAG - LittleLink Server latest image update"
+
+          # Push the tag
+          git push origin "$TAG"
+          echo "Successfully created and pushed tag: $TAG"
+
+      - name: Summary
+        run: |
+          echo "=== Autotag Summary ==="
+          echo "Current LittleLink Server image: ${{ steps.get_current_image.outputs.current_image }}"
+          if [[ "${{ steps.find_renovate_commit.outputs.new_image_update }}" == "true" ]]; then
+            echo "Renovate Docker image update found"
+            echo "Renovate commit: ${{ steps.find_renovate_commit.outputs.commit_hash }}"
+          else
+            echo "No Renovate Docker image updates found"
+          fi
+          echo "Tag created: ${{ steps.determine_tag.outputs.tag_name }}"
+          echo "Date: ${{ steps.determine_tag.outputs.date }}"
+          echo "Build number: ${{ steps.determine_tag.outputs.build_number }}"

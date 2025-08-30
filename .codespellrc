@@ -1,0 +1,151 @@
+# SPDX-FileCopyrightText: 2025 Pavel Dimov <@sagat79>
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Codespell configuration
+# See: https://github.com/codespell-project/codespell#configuration
+
+# Skip files
+skip = .git,*.pyc,*.pyo,*.pyd,.pytest_cache,.tox,dist,build,*.egg,.mypy_cache,.venv,venv,.ansible
+
+# Ignore words
+ignore-words-list = 
+  ansible
+  littlelink
+  traefik
+  systemd
+  dockerfile
+  github
+  gitlab
+  gitea
+  mastodon
+  bluesky
+  untappd
+  teespring
+  streamlabs
+  privatebin
+  instantgaming
+  anilist
+  letterboxd
+  microblog
+  threema
+  tsdproxy
+  apisix
+  appsmith
+  authelia
+  authentik
+  autobrr
+  calibre
+  changedetection
+  clickhouse
+  collabora
+  convertx
+  couchdb
+  docmost
+  dokuwiki
+  duplicati
+  echoip
+  endlessh
+  etcd
+  etherpad
+  excalidraw
+  exim
+  fail2ban
+  firezone
+  fmd
+  focalboard
+  forgejo
+  freescout
+  freshrss
+  funkwhale
+  ghostfolio
+  gitea
+  gotosocial
+  grafana
+  headscale
+  healthchecks
+  homarr
+  hubsite
+  ihatemoney
+  ilmo
+  infisical
+  influxdb
+  jackett
+  jellyfin
+  jitsi
+  joplin
+  keycloak
+  keydb
+  labelstudio
+  lago
+  languagetool
+  linkding
+  listmonk
+  loki
+  mariadb
+  matomo
+  matterbridge
+  minecraft
+  miniflux
+  mobilizon
+  mongodb
+  mosquitto
+  mozhi
+  mrs
+  n8n
+  navidrome
+  neko
+  netbox
+  nextcloud
+  notfellchen
+  ntfy
+  oauth2
+  outline
+  overseerr
+  owncast
+  oxitraffic
+  paperless
+  peertube
+  plausible
+  plex
+  postgis
+  postgres
+  prometheus
+  promtail
+  qbittorrent
+  radarr
+  radicale
+  reactflux
+  readeck
+  redis
+  redlib
+  redmine
+  roundcube
+  rumqttd
+  searxng
+  semaphore
+  send
+  sftpgo
+  softserve
+  sonarr
+  stirling
+  syncthing
+  tandoor
+  telegraf
+  timesync
+  traefik
+  tsdproxy
+  uptime
+  valkey
+  vaultwarden
+  versatiles
+  wetty
+  wgeasy
+  woodpecker
+  wordpress
+  writefreely
+  yacy
+  yourls
+
+# Quiet mode
+quiet-level = 2
