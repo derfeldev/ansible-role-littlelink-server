@@ -20,7 +20,7 @@
     name: "{{ littlelink_server_identifier }}"
     state: absent
     force_kill: true
-    remove_volumes: true
+    keep_volumes: false
 
 - name: Remove LittleLink Server container network
   community.docker.docker_network:

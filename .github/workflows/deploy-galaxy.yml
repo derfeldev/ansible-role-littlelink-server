@@ -30,8 +30,10 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Ansible
-        run: pip install ansible
+      - name: Install Ansible and collections
+        run: |
+          pip install ansible
+          ansible-galaxy collection install -r requirements.yml
 
       - name: Get tag version
         id: get_version
