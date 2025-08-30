@@ -9,7 +9,7 @@
 skip = .git,*.pyc,*.pyo,*.pyd,.pytest_cache,.tox,dist,build,*.egg,.mypy_cache,.venv,venv,.ansible
 
 # Ignore words
-ignore-words-list = 
+ignore-words-list =
   ansible
   littlelink
   traefik
