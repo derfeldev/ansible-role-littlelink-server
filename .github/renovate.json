@@ -1,60 +1,65 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
   "extends": [
     "config:recommended",
     ":semanticCommitsDisabled"
   ],
-  "labels": [
-    "dependencies"
-  ],
+
+  "labels": ["dependencies"],
+
+  // Disable the Dependency Dashboard issue
+  "dependencyDashboard": false,
+
+  // Global automerge settings
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true,
+
+  // Group small updates to reduce PR noise
   "packageRules": [
     {
-      "matchCategories": [
-        "docker"
-      ],
+      "groupName": "all patch and minor dependencies",
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "groupName": "major dependencies",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "groupName": "docker images",
+      "matchCategories": ["docker"],
       "enabled": true,
       "pinDigests": true
     },
     {
-      "matchFileNames": [
-        ".pre-commit-config.yaml"
-      ],
+      "groupName": "pre-commit hooks",
+      "matchFileNames": [".pre-commit-config.yaml"],
       "enabled": true,
       "automerge": true,
-      "automergeType": "branch",
-      "schedule": [
-        "* * 1 * *"
-      ],
-      "automergeSchedule": [
-        "* * 1 * *"
-      ]
+      "automergeType": "pr"
     },
     {
-      "matchFileNames": [
-        "defaults/main.yml"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch"
-      ],
+      "groupName": "LittleLink Server Docker image",
+      "matchFileNames": ["defaults/main.yml"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
       "enabled": true,
       "automerge": false,
       "commitMessageAction": "update",
       "commitMessageTopic": "LittleLink Server Docker image",
       "commitMessageExtra": "to latest",
       "commitMessagePrefix": "chore(deps):",
-      "schedule": [
-        "before 2am on monday"
-      ]
+      "schedule": ["before 2am on monday"]
     }
   ],
+
+  // Custom manager for LittleLink docker version
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/^defaults/main\\.yml$/"
-      ],
+      "managerFilePatterns": ["/^defaults/main\\.yml$/"],
       "matchStrings": [
         "# renovate: datasource=docker depName=littlelink-server versioning=latest\\s+littlelink_server_version:\\s*[\"']?(?<currentValue>.+?)[\"']?\\s"
       ],
@@ -64,6 +69,8 @@
       "packageNameTemplate": "littlelink-server"
     }
   ],
+
+  // Enable pre-commit manager
   "pre-commit": {
     "enabled": true
   }
