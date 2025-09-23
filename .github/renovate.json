@@ -1,22 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-
   "extends": [
     "config:recommended",
     ":semanticCommitsDisabled"
   ],
-
   "labels": ["dependencies"],
-
-  // Disable the Dependency Dashboard issue
   "dependencyDashboard": false,
-
-  // Global automerge settings
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,
-
-  // Group small updates to reduce PR noise
   "packageRules": [
     {
       "groupName": "all patch and minor dependencies",
@@ -54,8 +46,6 @@
       "schedule": ["before 2am on monday"]
     }
   ],
-
-  // Custom manager for LittleLink docker version
   "customManagers": [
     {
       "customType": "regex",
@@ -69,8 +59,6 @@
       "packageNameTemplate": "littlelink-server"
     }
   ],
-
-  // Enable pre-commit manager
   "pre-commit": {
     "enabled": true
   }
