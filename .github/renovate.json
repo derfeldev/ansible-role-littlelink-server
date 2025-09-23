@@ -1,22 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":semanticCommitsDisabled"
-  ],
+  "extends": ["config:recommended", ":semanticCommitsDisabled"],
   "labels": ["dependencies"],
   "dependencyDashboard": false,
   "automerge": true,
-  "automergeType": "pr",
+  "automergeType": "branch",
   "platformAutomerge": true,
   "packageRules": [
     {
-      "groupName": "all patch and minor dependencies",
+      "groupName": "all patch and minor updates",
       "matchUpdateTypes": ["patch", "minor"],
-      "automerge": true
+      "automerge": true,
+      "automergeType": "branch"
     },
     {
-      "groupName": "major dependencies",
+      "groupName": "major updates",
       "matchUpdateTypes": ["major"],
       "automerge": false
     },
@@ -31,7 +29,7 @@
       "matchFileNames": [".pre-commit-config.yaml"],
       "enabled": true,
       "automerge": true,
-      "automergeType": "pr"
+      "automergeType": "branch"
     },
     {
       "groupName": "LittleLink Server Docker image",
