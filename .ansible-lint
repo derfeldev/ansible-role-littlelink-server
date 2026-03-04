@@ -15,4 +15,4 @@ exclude_paths:
 verbosity: 1
 
 # Parse errors as fatal
-parseable: true
+# parseable: true
