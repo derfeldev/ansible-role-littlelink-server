@@ -38,7 +38,7 @@ This Ansible role provides:
 ### Main Configuration
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| ---------- | --------- | ------------- |
 | `littlelink_server_enabled` | `true` | Enable/disable the role |
 | `littlelink_server_hostname` | `''` | Hostname for the service |
 | `littlelink_server_path_prefix` | `/` | URL path prefix |
@@ -46,7 +46,7 @@ This Ansible role provides:
 ### Container Configuration
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| ---------- | --------- | ------------- |
 | `littlelink_server_version` | `latest` | Container image version (always latest from main branch) |
 | `littlelink_server_container_http_port` | `3000` | Container HTTP port |
 | `littlelink_server_container_http_host_bind_port` | `''` | Host port binding |
@@ -54,7 +54,7 @@ This Ansible role provides:
 ### Traefik Integration
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| ---------- | --------- | ------------- |
 | `littlelink_server_container_labels_traefik_enabled` | `true` | Enable Traefik labels |
 | `littlelink_server_container_labels_traefik_entrypoints` | `web-secure` | Traefik entrypoints |
 | `littlelink_server_container_labels_traefik_tls` | `true` | Enable TLS |
@@ -62,7 +62,7 @@ This Ansible role provides:
 ### LittleLink Server Configuration
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| ---------- | --------- | ------------- |
 | `littlelink_server_meta_title` | `LittleLink Server` | Page title |
 | `littlelink_server_meta_description` | `A lightweight DIY alternative to services like Linktree` | Page description |
 | `littlelink_server_name` | `LittleLink Server` | Display name |
